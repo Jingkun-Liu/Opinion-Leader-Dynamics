@@ -2,33 +2,33 @@
 
 This repository contains code and implementation details for paper "Opinion Leader Dynamics: How Sparse Attention Shapes Token Clustering".
 
-## Repository layout
+## Project Structure
 
 ```text
-github/
+Opinion-Leader-Dynamics/
 ├── README.md
-├── requirements.txt            # Pinned Python dependencies
+├── requirements.txt           
 ├── simulation/
-│   ├── main.py                 # CLI for all three attention dynamics
-│   ├── geometry.py             # Initial conditions, sphere geometry, vector fields, RK4
-│   ├── simulation_core.py      # Simulation loop, radius graph, and result assembly
-│   ├── visualization.py        # GIF and snapshot rendering
-│   ├── run_simulation.sh       # Launcher for standard/explicit/implicit runs
+│   ├── main.py                 
+│   ├── geometry.py             
+│   ├── simulation_core.py      
+│   ├── visualization.py        
+│   ├── run_simulation.sh      
 │   └── explicit_conditional/
-│       ├── main.py             # CLI for theory-conditioned explicit dynamics
-│       ├── geometry.py         # Grouped cap sampling and Assumption 3.1 diagnostics
-│       ├── simulation_core.py  # Conditional explicit simulation
-│       ├── visualization.py    # Conditional experiment visualization
-│       └── run_simulation.sh   # Example launcher with theory-compatible parameters
+│       ├── main.py             
+│       ├── geometry.py         
+│       ├── simulation_core.py  
+│       ├── visualization.py    
+│       └── run_simulation.sh   
 └── observation/
-    ├── main.py                 # self-test and eval CLI
-    ├── runner.py               # Model execution, hidden-state capture, output management
-    ├── model_loading.py        # DSV4, tokenizer, CUDA, and TileLang setup
-    ├── prompts.py              # HellaSwag/custom prompts and token handling
-    ├── clustering.py           # Hooks, UMAP, HDBSCAN, and layer-wise metrics
-    ├── baselines.py            # Gaussian embedding baseline
-    ├── plotting.py             # Sphere plots, silhouette curves, and summaries
-    └── run_hellaswag.sh        # Example four-GPU HellaSwag launcher
+    ├── main.py                 
+    ├── runner.py               
+    ├── model_loading.py        
+    ├── prompts.py              
+    ├── clustering.py           
+    ├── baselines.py            
+    ├── plotting.py             
+    └── run_hellaswag.sh        
 ```
 
 ## Installation
