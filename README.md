@@ -14,7 +14,6 @@ This repository contains implementation for the paper "Opinion Leader Dynamics: 
     </div>
   </div>
 </section>
-Comparison of three attention dynamics under the respective assumptions of our analysis.
 
 ## Attention Dynamics Simulation Results
 <table align="center">
