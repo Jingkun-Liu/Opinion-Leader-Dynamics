@@ -1,11 +1,6 @@
 # Opinion Leader Dynamics: How Sparse Attention Shapes Token Clustering
 
-This repository contains two related experimental pipelines:
-
-1. `simulation/` simulates three continuous-time attention dynamics on the unit sphere: Standard Attention, Explicit Opinion Leader Attention, and Implicit Opinion Leader Attention. It can render both animated GIFs and static snapshot montages.
-2. `observation/` loads a DeepSeek-V4 model, captures token hidden states across multiple layers, discovers clusters at the final layer with HDBSCAN, and retrospectively tracks the final partition through earlier layers using cosine silhouette scores and Riemann-UMAP sphere visualizations.
-
-The code is currently organized as standalone scripts rather than an installable Python package. Run each entry point from its own directory, or invoke it by its filesystem path as shown below.
+This repository contains code and implementation details for paper "Opinion Leader Dynamics: How Sparse Attention Shapes Token Clustering".
 
 ## Repository layout
 
