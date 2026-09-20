@@ -35,7 +35,7 @@ Opinion-Leader-Dynamics/
 
 ### 1. Clone the Repository
 ```bash
-git clone [https://github.com/Jingkun-Liu/Krause-Synchronization-Transformers.git](https://github.com/Jingkun-Liu/Krause-Synchronization-Transformers.git)
+git clone [[https://github.com/Jingkun-Liu/Krause-Synchronization-Transformers.git](https://github.com/Jingkun-Liu/Krause-Synchronization-Transformers.git](https://github.com/Jingkun-Liu/Opinion-Leader-Dynamics.git)
 cd Opinion-Leader-Dynamics
 ```
 
