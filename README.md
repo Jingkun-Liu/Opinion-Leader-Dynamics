@@ -45,8 +45,10 @@ Opinion-Leader-Dynamics/
 ```
 
 ## Datasets
-
-
+* **Download Required**:
+    * **Frontier LLM Analysis Datasets**: HellaSwag can be found at [https://huggingface.co/datasets/allenai/hellaswag], HumanEval can be found at [https://huggingface.co/datasets/openai/openai_humaneval], ARC-Easy can be found at [https://huggingface.co/datasets/allenai/ai2_arc], and MATH can be found at [https://huggingface.co/datasets/EleutherAI/hendrycks_math].
+    * **Long-Context LLM Experiment**: The Variable Tracking (VT) data can be generated at the desired context length using the official [`variable_tracking.py`](https://github.com/NVIDIA/RULER/blob/main/scripts/data/synthetic/variable_tracking.py) script from [RULER](https://github.com/NVIDIA/RULER).
+    * **LLMs**: LLM ckpts can be found at (DeepSeek-V4-Flash)[https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash], (KiMi-K3)[https://huggingface.co/moonshotai/Kimi-K3], (MiniMax-M3)[https://huggingface.co/MiniMaxAI/MiniMax-M3], and (GLM-4.7-Flash)[https://huggingface.co/zai-org/GLM-4.7-Flash].
 ## Attention Dynamics Simulation
 
 Run three attention dynamics simulations:
