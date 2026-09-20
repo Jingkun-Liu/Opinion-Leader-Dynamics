@@ -19,6 +19,7 @@ pip install -r requirements.txt
 
 ```text
 Opinion-Leader-Dynamics/
+├── images
 ├── README.md
 ├── requirements.txt           
 ├── simulation/
