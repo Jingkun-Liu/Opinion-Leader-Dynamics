@@ -14,6 +14,7 @@ This repository contains implementation for the paper "Opinion Leader Dynamics: 
     </div>
   </div>
 </section>
+Comparison of three attention dynamics under the respective assumptions of our analysis.
 
 ## Attention Dynamics Simulation Results
 <table align="center">
@@ -48,6 +49,8 @@ This repository contains implementation for the paper "Opinion Leader Dynamics: 
     </div>
   </div>
 </section>
+
+Layerwise evolution of token hidden states for **ARC-Easy** samples in $\\textcolor{#5178a1}{\\textbf{Kimi-K3}}$, $\\textcolor{#b11f23}{\\textbf{MiniMax-M3}}$,  and $\\textcolor{#5178a1}{\\textbf{DeepSeek-}}\\textcolor{#b11f23}{\\textbf{V4-Flash}}$, and $\\textcolor{#148e6f}{\\textbf{GLM-4.7-Flash}}$, visualized on unit sphere using **spherical UMAP**.
 
 ## Installation
 
