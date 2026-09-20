@@ -72,7 +72,7 @@ Results are written to `explicit_conditional/results/`.
 
 ## Frontier LLM Analysis
 
-To analyze the layerwise token evolution of DeepSeek-V4-Flash on HellaSwag, run the following command:
+For example, to analyze the layerwise token evolution of DeepSeek-V4-Flash on HellaSwag, run the following command:
 
 ```bash
 cd observation
@@ -90,4 +90,5 @@ If you find this research useful, please consider citing our work!
 }
 ```
 
-
+## Issues
+If you have any question, feel free to contact me at sjtu_ljk@sjtu.edu.cn
