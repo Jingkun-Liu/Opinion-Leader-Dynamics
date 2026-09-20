@@ -137,5 +137,14 @@ CUDA_VISIBLE_DEVICES=4,5,6,7 torchrun \
 ```
 
 ## Citation
+If you find this research useful, please consider citing our work!
+```bash
+@article{liuopinion2026,
+  title={Opinion Leader Dynamics: How Sparse Attention Shapes Token Clustering},
+  author={Jingkun Liu and Yue Song},
+  journal={ArXiv},
+  year={2026}
+}
+```
 
 
