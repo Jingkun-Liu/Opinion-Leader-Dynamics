@@ -15,7 +15,7 @@ This repository contains implementation for the paper "Opinion Leader Dynamics: 
   </div>
 </section>
 
-## Attention Dynamics Simulations
+## Attention Dynamics Simulation Results
 <table align="center">
   <tr>
     <td align="center" width="33%">
@@ -35,6 +35,19 @@ This repository contains implementation for the paper "Opinion Leader Dynamics: 
     </td>
   </tr>
 </table>
+
+## Frontier LLM Analysis Visualization
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div class="has-text-centered">
+        <img src="images/llm_observation.png" 
+             alt="The layerwise token evolution of LLMs" 
+             style="width: 100%; height: auto; display: inline-block;"> 
+             </div>
+    </div>
+  </div>
+</section>
 
 ## Installation
 
@@ -85,7 +98,7 @@ Opinion-Leader-Dynamics/
 * **Long-Context LLM Experiment**: The Variable Tracking (VT) data can be generated at the desired context length using the official [`variable_tracking.py`](https://github.com/NVIDIA/RULER/blob/main/scripts/data/synthetic/variable_tracking.py) script from [RULER](https://github.com/NVIDIA/RULER).
 * **LLMs**: Frontier sparse-attention LLMs used in our paper are: [DeepSeek-V4-Flash](https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash), [KiMi-K3](https://huggingface.co/moonshotai/Kimi-K3), [MiniMax-M3](https://huggingface.co/MiniMaxAI/MiniMax-M3), and [GLM-4.7-Flash](https://huggingface.co/zai-org/GLM-4.7-Flash).
 
-## Attention Dynamics Simulation
+## Dynamics Simulation
 
 Run three attention dynamics simulations:
 
@@ -105,7 +118,7 @@ bash run_simulation.sh
 
 Results are written to `explicit_conditional/results/`.
 
-## Frontier LLM Analysis
+## LLM Analysis
 
 For example, to analyze the layerwise token evolution of DeepSeek-V4-Flash on HellaSwag, run the following command:
 
