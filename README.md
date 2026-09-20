@@ -33,13 +33,16 @@ Opinion-Leader-Dynamics/
 
 ## Installation
 
-Use Python 3.10 or newer and install the pinned environment:
-
+### 1. Clone the Repository
 ```bash
-python -m pip install -r github/requirements.txt
+git clone [https://github.com/Jingkun-Liu/Krause-Synchronization-Transformers.git](https://github.com/Jingkun-Liu/Krause-Synchronization-Transformers.git)
+cd Opinion-Leader-Dynamics
 ```
 
-PyTorch must match the target CUDA runtime and GPU architecture. If necessary, install the appropriate PyTorch wheel for the machine before installing the remaining pinned packages.
+### 2. Install Required Packages
+```bash
+pip install -r requirements.txt
+```
 
 ## Attention dynamics simulation
 
@@ -48,7 +51,7 @@ PyTorch must match the target CUDA runtime and GPU architecture. If necessary, i
 Enter the main simulation directory:
 
 ```bash
-cd github/simulation
+cd ./simulation
 ```
 
 Run any of the three models:
