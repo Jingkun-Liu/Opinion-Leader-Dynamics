@@ -1,4 +1,4 @@
-# Attention Dynamics Simulation and Hidden-State Observation
+# Opinion Leader Dynamics: How Sparse Attention Shapes Token Clustering
 
 This repository contains two related experimental pipelines:
 
