@@ -44,23 +44,19 @@ Opinion-Leader-Dynamics/
     └── run_hellaswag.sh        
 ```
 
+## Datasets
+
+
 ## Attention Dynamics Simulation
 
-Enter the main simulation directory:
+Run three attention dynamics simulations:
 
 ```bash
 cd simulation
-```
-
-Run any of the three models:
-
-```bash
 bash run_simulation.sh standard
 bash run_simulation.sh explicit
 bash run_simulation.sh implicit
 ```
-
-## Conditional Explicit Experiment
 
 `simulation/explicit_conditional/` provides a implementation for Explicit Opinion Leader experiments under Assumption 3.1 (geometric separation and dominance conditions).
 
@@ -68,72 +64,16 @@ bash run_simulation.sh implicit
 cd ./simulation/explicit_conditional
 bash run_simulation.sh
 ```
+
 Results are written to `explicit_conditional/results/`.
 
 ## Frontier LLM Analysis
 
-### Model directory requirements
-
-`--config` must point to the configuration file inside the DSV4 inference directory. A compatible layout looks like this:
-
-```text
-llm/DS_V4_Flash/
-├── inference/
-│   ├── config.json
-│   ├── model.py
-│   └── kernel.py
-├── encoding/
-│   └── encoding_dsv4.py
-└── tokenizer.json
-```
-
-The loader adds the parent directory of `config.json` to `sys.path` and then imports:
-
-```python
-from model import ModelArgs, Transformer
-```
-
-The model-parallel checkpoint directory must contain one shard per process. For a four-way checkpoint:
-
-```text
-model0-mp4.safetensors
-model1-mp4.safetensors
-model2-mp4.safetensors
-model3-mp4.safetensors
-```
-
-When `--nproc-per-node=4` is used, each rank loads its corresponding `model{rank}-mp4.safetensors` shard.
-
-### Usage
+To analyze the layerwise token evolution of DeepSeek-V4-Flash on HellaSwag, run the following command:
 
 ```bash
-CUDA_VISIBLE_DEVICES=4,5,6,7 torchrun \
-  OMP_NUM_THREADS=8 \
-  MKL_NUM_THREADS=8 \
-  OPENBLAS_NUM_THREADS=8 \
-  --standalone \
-  --nproc-per-node=4 \
-  main.py eval \
-  --ckpt-path .../llm/DS_V4_Flash_mp4 \
-  --config .../llm/DS_V4_Flash/inference/config.json \
-  --tokenizer-path .../llm/DS_V4_Flash \
-  --hellaswag-path .../datasets/hellaswag/data/test-00000-of-00001.parquet \
-  --hellaswag-activities all \
-  --out-dir results \
-  --max-tokens 2048 \
-  --max-seq-len 2048 \
-  --num-observation-layers 12 \
-  --umap-fit-tokens-per-layer 128 \
-  --plot-tokens 256 \
-  --samples-per-group 100 \
-  --umap-components 32 \
-  --umap-n-neighbors 10 \
-  --umap-min-dist 0.1 \
-  --umap-metric cosine \
-  --hdbscan-min-cluster-fraction 0.03 \
-  --hdbscan-min-samples-fraction 0.01 \
-  --hdbscan-cluster-selection-method eom \
-  --tilelang-backend auto \
+cd observation
+bash run_hellaswag.sh
 ```
 
 ## Citation
