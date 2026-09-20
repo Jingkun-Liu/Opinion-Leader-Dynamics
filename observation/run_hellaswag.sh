@@ -14,10 +14,10 @@ nohup env \
   --standalone \
   --nproc-per-node=4 \
   main.py eval \
-  --ckpt-path /nvme/jkliu/nsa_iclr/llm/DS_V4_Flash_mp4 \
-  --config /nvme/jkliu/nsa_iclr/llm/DS_V4_Flash/inference/config.json \
-  --tokenizer-path /nvme/jkliu/nsa_iclr/llm/DS_V4_Flash \
-  --hellaswag-path /nvme/jkliu/nsa_iclr/datasets/hellaswag/data/test-00000-of-00001.parquet \
+  --ckpt-path .../llm/DS_V4_Flash_mp4 \
+  --config .../llm/DS_V4_Flash/inference/config.json \
+  --tokenizer-path .../llm/DS_V4_Flash \
+  --hellaswag-path .../datasets/hellaswag/data/test-00000-of-00001.parquet \
   --hellaswag-activities all \
   --out-dir "${OUT_DIR}" \
   --max-tokens 2048 \
