@@ -18,17 +18,17 @@ This repository contains implementation for the paper "Opinion Leader Dynamics: 
 ## Attention Dynamics Simulations
 <table align="center">
   <tr>
-    <td align="center" width="50%">
+    <td align="center" width="33%">
       <img src="images/standard_attention_dynamics.gif" alt="3d standard attention" width="100%">
       <br>
       Evolution of tokens under <b>Standard Attention</b> dynamics on the unit sphere.
     </td>
-    <td align="center" width="50%">
+    <td align="center" width="33%">
       <img src="images/explicit_attention_dynamics.gif" alt="3d explicit attention" width="100%">
       <br>
       Evolution of tokens under <b>Explicit Opinion Leader</b> dynamics on the unit sphere.
     </td>
-    <td align="center" width="50%">
+    <td align="center" width="33%">
       <img src="images/implicit_attention_dynamics.gif" alt="3d implicit attention" width="100%">
       <br>
       Evolution of tokens under <b>Implicit Opinion Leader</b> dynamics on the unit sphere.
