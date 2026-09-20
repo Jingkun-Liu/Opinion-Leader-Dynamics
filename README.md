@@ -93,8 +93,6 @@ The loader adds the parent directory of `config.json` to `sys.path` and then imp
 from model import ModelArgs, Transformer
 ```
 
-If `config.json` and `model.py` are not in the same inference directory, the run will fail with `ModuleNotFoundError: No module named 'model'`.
-
 The model-parallel checkpoint directory must contain one shard per process. For a four-way checkpoint:
 
 ```text
@@ -106,172 +104,35 @@ model3-mp4.safetensors
 
 When `--nproc-per-node=4` is used, each rank loads its corresponding `model{rank}-mp4.safetensors` shard.
 
-### Self-test
+### Usage
 
 ```bash
-cd github/observation
-python main.py self-test --seed 0
-```
-
-The self-test builds synthetic hidden states with three known groups and checks that HDBSCAN recovers three clusters, final labels are reused without reclustering, snapshot labels remain fixed, and the final-layer cosine silhouette exceeds the early-layer value.
-
-### HellaSwag example
-
-A four-GPU background launcher is provided:
-
-```bash
-cd github/observation
-bash run_hellaswag.sh
-```
-
-The current launcher is configured for:
-
-- `CUDA_VISIBLE_DEVICES=4,5,6,7`;
-- `torchrun --nproc-per-node=4`;
-- machine-specific absolute model, checkpoint, and HellaSwag paths;
-- at most 100 samples per activity group;
-- a 32-dimensional clustering UMAP and 12 observed layers;
-- background execution with stdout and stderr redirected to the result directory.
-
-Update the GPU IDs and absolute paths before running the script on another machine.
-
-An equivalent foreground command, launched from `github/observation`, is:
-
-```bash
-CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun \
+CUDA_VISIBLE_DEVICES=4,5,6,7 torchrun \
+  OMP_NUM_THREADS=8 \
+  MKL_NUM_THREADS=8 \
+  OPENBLAS_NUM_THREADS=8 \
   --standalone \
   --nproc-per-node=4 \
   main.py eval \
-  --ckpt-path ../../llm/DS_V4_Flash_mp4 \
-  --config ../../llm/DS_V4_Flash/inference/config.json \
-  --tokenizer-path ../../llm/DS_V4_Flash \
-  --hellaswag-path ../../datasets/hellaswag/data/test-00000-of-00001.parquet \
-  --out-dir ./results_dsv4_hellaswag \
+  --ckpt-path .../llm/DS_V4_Flash_mp4 \
+  --config .../llm/DS_V4_Flash/inference/config.json \
+  --tokenizer-path .../llm/DS_V4_Flash \
+  --hellaswag-path .../datasets/hellaswag/data/test-00000-of-00001.parquet \
+  --hellaswag-activities all \
+  --out-dir results \
   --max-tokens 2048 \
   --max-seq-len 2048 \
   --num-observation-layers 12 \
+  --umap-fit-tokens-per-layer 128 \
+  --plot-tokens 256 \
+  --samples-per-group 100 \
   --umap-components 32 \
-  --tilelang-backend auto
+  --umap-n-neighbors 10 \
+  --umap-min-dist 0.1 \
+  --umap-metric cosine \
+  --hdbscan-min-cluster-fraction 0.03 \
+  --hdbscan-min-samples-fraction 0.01 \
+  --hdbscan-cluster-selection-method eom \
+  --tilelang-backend auto \
 ```
 
-### Input formats
-
-Each `eval` run accepts exactly one input source:
-
-- `--hellaswag-path FILE.parquet`: expects `ctx` and four `endings`; it also reads metadata such as `label`, `activity_label`, and `source_id` when present.
-- `--prompt-file FILE`: treats one UTF-8 text file as a single sample.
-- `--prompt-jsonl FILE`: each nonempty line must contain at least `{"text": "..."}` and may include `tag`/`id` and `group`.
-- `--prompt-dir DIR`: recursively reads `.txt` and `.md` files; the first subdirectory is used as the group name.
-
-Example JSONL input:
-
-```json
-{"tag":"sample_001","group":"reasoning","text":"Explain why the sky appears blue."}
-{"tag":"sample_002","group":"coding","text":"Write a binary search implementation."}
-```
-
-### Sampling and token limits
-
-| Option | Description |
-| --- | --- |
-| `--hellaswag-activities` | Comma-separated activity labels, or `all` |
-| `--samples-per-group` | Maximum samples per group; `0` disables the limit |
-| `--sample-seed` | Seed for grouped sampling, UMAP, and the Gaussian baseline |
-| `--max-tokens` / `--max-seq-len` | The capture limit is the smaller of these two values |
-| `--long-prompt-policy error` | Fail when a prompt exceeds the capture limit |
-| `--long-prompt-policy head_tail` | Preserve tokens from both the beginning and end |
-| `--truncation-head-fraction` | Fraction assigned to the head under `head_tail`; internally clamped to `[0.1, 0.9]` |
-| `--resume` | Reuse an existing JSON only when its analysis configuration matches exactly |
-
-### UMAP and HDBSCAN options
-
-| Option | Description |
-| --- | --- |
-| `--spherical-cluster-space umap` | Cluster in shared UMAP coordinates |
-| `--spherical-cluster-space hidden` | Cluster in the full L2-normalized hidden space |
-| `--umap-components` | Number of clustering UMAP dimensions; sphere visualization uses a separate 3D map |
-| `--umap-fit-tokens-per-layer` | Maximum tokens per layer used to fit the shared UMAP |
-| `--umap-n-neighbors` / `--umap-min-dist` | UMAP neighborhood and compactness parameters |
-| `--hdbscan-min-cluster-size` | Absolute minimum cluster size; `0` derives it from a fraction with a floor of 10 |
-| `--hdbscan-min-samples` | Absolute `min_samples`; `0` derives it from a fraction with a floor of 5 |
-| `--hdbscan-cluster-selection-method` | `eom` or `leaf` |
-| `--assign-all-tokens` | Assign HDBSCAN noise points to the nearest cluster; enabled by default |
-| `--plot-tokens` | Maximum number of tokens displayed in each sphere snapshot |
-
-When `--assign-all-tokens` is disabled, noise retains label `-1` and is excluded from the cosine silhouette calculation.
-
-### TileLang backend selection
-
-`--tilelang-backend` accepts:
-
-- `auto`: uses `tvm_ffi` when a complete CUDA Toolkit containing both `nvcc` and `cuda_runtime.h` is found; otherwise uses `nvrtc`.
-- `tvm_ffi`: requires a complete CUDA Toolkit and reports all searched paths when none is found.
-- `nvrtc`: compiles through the CUDA runtime compiler and can be used when the system does not provide `nvcc`.
-
-The loader derives `TILELANG_TARGET` from the active GPU compute capability. Its compilation cache is controlled by `DSV4_TILELANG_CACHE_DIR`; when unset, an architecture-specific directory under the active environment is used.
-
-### Observation outputs
-
-Each run writes the following files under `--out-dir`:
-
-```text
-sample_manifest.json                  # Inputs, groups, and analysis configuration
-gaussian_baseline_hidden_umap.json    # Gaussian initialization baseline
-<tag>_hidden_umap.json                # Token data, clustering, and layer-wise metrics
-<tag>_hidden_umap.png                 # Sphere snapshots and silhouette curve
-hidden_umap_summary.json              # Compact summary of the complete run
-```
-
-Each sample JSON includes final-layer HDBSCAN labels, membership probabilities, outlier scores, noise fraction, cluster persistence, layer-wise fixed-label cosine silhouettes, token text, and sphere snapshot coordinates.
-
-## Troubleshooting
-
-### `ModuleNotFoundError: No module named 'model'`
-
-The `--config` path is usually incorrect. Confirm that it points to the real `DS_V4_Flash/inference/config.json` and that `model.py` exists in the same directory. Remember that relative paths are resolved after any `cd` performed by a launcher script.
-
-### Missing checkpoint shard
-
-The number of `torchrun` processes must match the model-parallel degree used during checkpoint conversion. For example, an `mp4` checkpoint requires four ranks and all four `model{rank}-mp4.safetensors` files.
-
-### UMAP reports `cannot cache function ... no locator available`
-
-This indicates an installation or cache compatibility problem involving `umap-learn`, `pynndescent`, and Numba rather than invalid clustering input. Reinstall mutually compatible versions in a clean environment, make sure the package `.py` sources are present, and verify that the cache directory is writable.
-
-### CUDA out of memory
-
-Reduce the following options first:
-
-- `--max-tokens` and `--max-seq-len`;
-- `--umap-fit-tokens-per-layer`;
-- `--plot-tokens`;
-- the number of evaluated samples.
-
-Reducing `--plot-tokens` only reduces visualization size; it does not significantly reduce memory used during the model forward pass.
-
-### Non-finite simulation state
-
-Reduce `--dt` or `--beta`. The Explicit model also enforces `beta * max(leader radius) < 80` to prevent float32 exponential overflow.
-
-## Reproducibility
-
-- Simulation initialization is controlled by `--seed`.
-- Observation sampling, UMAP, and the Gaussian baseline are controlled by `--sample-seed`.
-- GPU, CUDA, TileLang, UMAP/Numba, and HDBSCAN versions can still introduce small numerical differences.
-- Record the complete command, package versions, `sample_manifest.json`, and `hidden_umap_summary.json` for reproducible runs.
-
-## Development checks
-
-Compile all Python sources:
-
-```bash
-python -m compileall -q github/simulation github/observation
-```
-
-Inspect the three command-line interfaces:
-
-```bash
-python github/simulation/main.py --help
-python github/simulation/explicit_conditional/main.py --help
-python github/observation/main.py --help
-```
