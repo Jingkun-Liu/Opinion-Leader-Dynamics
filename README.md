@@ -15,6 +15,27 @@ This repository contains implementation for the paper "Opinion Leader Dynamics: 
   </div>
 </section>
 
+## Attention Dynamics Simulations
+<table align="center">
+  <tr>
+    <td align="center" width="50%">
+      <img src="images/standard_attention_dynamics.gif" alt="2d krause attention" width="100%">
+      <br>
+      Evolution of tokens under <b>Standard Attention</b> dynamics on the unit sphere.
+    </td>
+    <td align="center" width="50%">
+      <img src="images/standard_attn_2d_notitle.gif" alt="2d standard attention" width="100%">
+      <br>
+      Evolution of tokens under <b>Explicit Opinion Leader</b> dynamics on the unit sphere.
+    </td>
+    <td align="center" width="50%">
+      <img src="images/implicit_attention_dynamics.gif" alt="2d standard attention" width="100%">
+      <br>
+      Evolution of tokens under <b>Implicit Opinion Leader</b> dynamics on the unit sphere.
+    </td>
+  </tr>
+</table>
+
 ## Installation
 
 ### 1. Clone the Repository
