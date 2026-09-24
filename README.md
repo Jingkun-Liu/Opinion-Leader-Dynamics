@@ -136,7 +136,8 @@ If you find this research useful, please consider citing our work!
   title={Opinion Leader Dynamics: How Sparse Attention Shapes Token Clustering},
   author={Jingkun Liu and Yue Song},
   journal={ArXiv},
-  year={2026}
+  year={2026},
+  url={https://arxiv.org/abs/2609.24202}
 }
 ```
 
